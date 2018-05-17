@@ -2,6 +2,10 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var mongoose = require("mongoose");
+var Campground = require("./models/campground");
+var Comment = require("./models/comment");
+var User = require("./models/user");
+
 
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -9,13 +13,7 @@ app.set("view engine", "ejs");
 
 //Schema setup
 
-var campgroundSchema = new mongoose.Schema({
-  name: String,
-  image: String,
-  description: String
-});
 
-var Campground = mongoose.model("Campground", campgroundSchema);
 
 // Campground.create({
 //         name: "Manali",
@@ -49,7 +47,7 @@ app.get("/campgrounds", function(req, res) {
   Campground.find({}, function(err, allcampgrounds) {
     if (err) console.log(err);
     else {
-      res.render("campgrounds", { campgrounds: allcampgrounds });
+      res.render("Index", { campgrounds: allcampgrounds });
     }
   });
 });
@@ -57,9 +55,11 @@ app.get("/campgrounds", function(req, res) {
 app.post("/campgrounds", function(req, res) {
   var name = req.body.name;
   var image = req.body.image;
+  var description = req.body.description;
   var newCampground = {
     name,
-    image
+    image,
+    description
   };
 
   Campground.create(newCampground, function(err, newlyCreated) {
@@ -76,9 +76,12 @@ app.get("/campgrounds/new", function(re1, res) {
 });
 
 app.get("/campgrounds/:id", function(req,res){
-    //To show more info about an element
-    // res.send("This will be the showpage One day");
-    res.render("show");
+  Campground.findById(req.params.id,function(err,foundCampground){
+    if(err)
+      console.log(err)
+    else
+    res.render("show",{campground:foundCampground});      
+  });
 });
 
 app.listen(3000, function() {
