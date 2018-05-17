@@ -5,7 +5,9 @@ var mongoose = require("mongoose");
 var Campground = require("./models/campground");
 var Comment = require("./models/comment");
 var User = require("./models/user");
+var seedDB = require("./seeds");
 
+// seedDB();
 
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,14 +32,6 @@ app.set("view engine", "ejs");
 //     }
 // });
 
-// var campgrounds =[
-//     {name: "Thane Creek", image: "https://www.pc.gc.ca/en/pn-np/ab/banff/activ/camping/~/media/802FD4AF791F4C6886E18CBF4A2B81B2.ashx?w=595&h=396&as=1"},
-//     {name: "Manali", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO3ZjRQZaLS1QkYKgfF2ZLfN6A_JrrUHBdvQq748V-RjtfjAcm"},
-//     {name: "Shimla", image: "https://threerivers-drupal.s3.us-east-2.amazonaws.com/public/2017-03/BP_Camping_Billboard_01.jpg"},
-//     {name: "Kings Park", image: "https://www.pc.gc.ca/en/pn-np/ab/banff/activ/camping/~/media/802FD4AF791F4C6886E18CBF4A2B81B2.ashx?w=595&h=396&as=1"},
-//     {name: "Salmon creek", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO3ZjRQZaLS1QkYKgfF2ZLfN6A_JrrUHBdvQq748V-RjtfjAcm"},
-//     {name: "Greece", image: "https://threerivers-drupal.s3.us-east-2.amazonaws.com/public/2017-03/BP_Camping_Billboard_01.jpg"}
-// ];
 
 app.get("/", function(req, res) {
   res.render("landing");
