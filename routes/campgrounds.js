@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
   });
 
 //Create Route
-router.post("/", function(req, res) {
+router.post("/", isLoggedIn, function(req, res) {
     var name = req.body.name;
     var image = req.body.image;
     var description = req.body.description;
@@ -33,7 +33,7 @@ router.post("/", function(req, res) {
   });
   
 // NEW Route
-router.get("/new", function(re1, res) {
+router.get("/new", isLoggedIn, function(re1, res) {
 	res.render("campgrounds/new.ejs");
 });
   
@@ -46,5 +46,13 @@ router.get("/:id", function(req,res){
       res.render("campgrounds/show",{campground:foundCampground});      
     });
 });
-  
+
+// Middleware
+function isLoggedIn(req,res,next){
+  if(req.isAuthenticated()){
+      return next();
+  }
+  res.redirect("/login");
+}
+
   module.exports = router;
