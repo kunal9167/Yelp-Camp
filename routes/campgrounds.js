@@ -69,7 +69,6 @@ router.get("/", function(req, res){
 router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, res){
   // get data from form and add to campgrounds array
   var name = req.body.campground.name;
-  var image = req.body.campground.image;
   var desc = req.body.campground.description;
   var author = {
       id: req.user._id,
@@ -90,7 +89,13 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 		  id: req.user._id,
 		  username: req.user.username
 		}
-		Campground.create(req.body.campground, function(err, campground) {
+		var lat = data[0].latitude;
+		var lng = data[0].longitude;
+		var location = data[0].formattedAddress;
+		
+		var newCampground = {name: name, image:req.body.campground.image , description: desc, author:author, location: location, lat: lat, lng: lng, price: req.body.campground.price};
+		
+		Campground.create(newCampground, function(err, campground) {
 		  if (err) {
 			req.flash('error', err.message);
 			return res.redirect('back');
@@ -99,16 +104,16 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 		});
 	  });
 
-    var lat = data[0].latitude;
-    var lng = data[0].longitude;
-    var location = data[0].formattedAddress;
-    var newCampground = {name: name, image: image, description: desc, author:author, location: location, lat: lat, lng: lng};
     // Create a new campground and save to DB
-    Campground.create(newCampground, function(err, newlyCreated){
-        if(err){
-            console.log(err);
-        }
-    });
+    // Campground.create(newCampground, function(err, newlyCreated){
+    //     if(err){
+    //         console.log(err);
+    //     } else {
+    //         //redirect back to campgrounds page
+    //         console.log(newlyCreated);
+    //         res.redirect("/campgrounds");
+    //     }
+    // });
   });
 });
   
