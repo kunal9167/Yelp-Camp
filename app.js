@@ -50,6 +50,10 @@ app.use("/campgrounds/:id/comments",commentRoutes);
 app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
 
-app.listen(3000 || process.env.PORT, function() {
+const port = process.env.PORT || 3000;
+
+console.log(port);
+
+app.listen(port || 3000, function() {
   console.log("Yelp camp has started");
 });
