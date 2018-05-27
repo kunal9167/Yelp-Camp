@@ -9,12 +9,14 @@ var seedDB = require("./seeds");
 var passport = require("passport");
 var LocalStratergy = require("passport-local");
 var methodOverride = require('method-override');
+var flash = require("connect-flash");
 
 // Requiring Routes
 var commentRoutes     = require("./routes/comments");
 var campgroundRoutes  = require("./routes/campgrounds");
 var indexRoutes        = require("./routes/index");
 app.use(methodOverride('_method'));
+app.use(flash());
 
 
 mongoose.connect("mongodb://localhost/yelp_camp");
@@ -36,6 +38,9 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 app.use(function(req,res,next){
 	res.locals.currentUser = req.user;
+	res.locals.error = req.flash("error");
+	res.locals.success = req.flash("success");
+	
 	next();
 });	
 app.use("/campgrounds/:id/comments",commentRoutes);

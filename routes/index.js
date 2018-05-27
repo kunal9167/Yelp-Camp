@@ -21,19 +21,23 @@ router.get("/register",function(req,res){
 router.post("/register", function(req, res){
       var newUser = new User({username: req.body.username});
       User.register(newUser, req.body.password, function(err, user){
-          if(err){
-              console.log(err);
-              return res.render("register");
+        
+        if(err){
+            req.flash("error", err.message);
+            return res.redirect("/register");
           }
+          else{
           passport.authenticate("local")(req, res, function(){
-             res.redirect("/campgrounds"); 
+            req.flash("success", "Welcome to YelpCamp "+user.username);            
+            res.redirect("/campgrounds"); 
           });
+        }
       });
   });
   
 // Show login form
 router.get("/login", function(req,res){
-      res.render("login");
+      res.render("login", {});
   });
   
   // Handling Login Logic
@@ -47,14 +51,9 @@ router.post("/login", passport.authenticate("local",
   // Logout route
   router.get("/logout",function(req,res){
       req.logOut();
+      req.flash("success", "Logged you out");
       res.redirect("/campgrounds")
   });
   
-  function isLoggedIn(req,res,next){
-      if(req.isAuthenticated()){
-          return next();
-      }
-      res.redirect("/login");
-  }
 
   module.exports = router;
