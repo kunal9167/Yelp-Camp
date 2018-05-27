@@ -1,5 +1,4 @@
 <% include ../partials/header %>
-	<div class="container">
     <div class="row">
         <h1 style="text-align: center">Create a new Campground</h1>
 		<div style="width:30%; margin: 25px auto;">
@@ -8,7 +7,14 @@
                 <input class="form-control" type="text" name="name" placeholder="Name">
             </div>
             <div class="form-group">
+                <input class="form-control" type="number" name="price" placeholder="Price in $" min="0.01" step="0.01">
+            </div>
+            <div class="form-group">
           	    <input class="form-control" type="text" name="image" placeholder="Image URL">
+            </div>
+            <div class="form-group">
+                <label for="location">Location</label>
+                <input class="form-control" type="text" name="location" id="location" placeholder="Yosemite National Park, CA">
             </div>
             <div class="form-group">
                 <input class="form-control" type="text" name="description" placeholder="Description">
@@ -22,5 +28,4 @@
 		
         </div>
     </div>
-</div>
 <% include ../partials/footer %>

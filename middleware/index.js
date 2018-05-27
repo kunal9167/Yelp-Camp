@@ -1,20 +1,25 @@
 var Campground = require('../models/campground');
 var Comment = require('../models/comment');
 
-
 var middlewareObj = {};
 
 middlewareObj.checkCampgroundOwnership = function(req,res,next){
+	
 	if(req.isAuthenticated()){
 		//does user own the campground
 		Campground.findById(req.params.id, function(err,foundCampground){
-
 			if(err){
 				req.flash("error", "Campground not found");					
 				res.redirect("/campgrounds")
 			}
 			else{
-				if(foundCampground.author.id.equals( req.user._id)){
+				
+				if (!foundCampground) {
+                    req.flash("error", "Item not found.");
+                    return res.redirect("back");
+				}
+				// console.log("Hello");
+				if(foundCampground.author.id.equals( req.user._id) || req.user.isAdmin){
 					next();
 				}
 				else{
@@ -40,7 +45,7 @@ middlewareObj.checkCommentOwnership = function(req,res,next){
 			if(err){
 				res.redirect("back")
 			}else{
-				if(foundComment.author.id.equals(req.user._id)){
+				if(foundComment.author.id.equals(req.user._id) || req.user.isAdmin){
 					next();
 				}
 				else{
