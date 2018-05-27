@@ -8,11 +8,13 @@ var User = require("./models/user");
 var seedDB = require("./seeds");
 var passport = require("passport");
 var LocalStratergy = require("passport-local");
+var methodOverride = require('method-override');
 
 // Requiring Routes
 var commentRoutes     = require("./routes/comments");
 var campgroundRoutes  = require("./routes/campgrounds");
 var indexRoutes        = require("./routes/index");
+app.use(methodOverride('_method'));
 
 
 mongoose.connect("mongodb://localhost/yelp_camp");
@@ -36,11 +38,9 @@ app.use(function(req,res,next){
 	res.locals.currentUser = req.user;
 	next();
 });	
-
 app.use("/campgrounds/:id/comments",commentRoutes);
 app.use(indexRoutes);
 app.use("/campgrounds", campgroundRoutes);
-
 
 app.listen(3000, function() {
   console.log("Yelp camp has started");
