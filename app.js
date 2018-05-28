@@ -21,7 +21,7 @@ app.use(flash());
 
 
 // mongoose.connect("mongodb://localhost/yelp_camp");
-mongoose.connect("mongodb://kunal:kg4289@ds235840.mlab.com:35840/yecamp");
+mongoose.connect("mongodb://"+process.env.GEOCODER_API_KEY+":"+process.env.GEOCODER_API_KEY+"@ds235840.mlab.com:35840/yecamp");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(express.static(__dirname + "/public"));

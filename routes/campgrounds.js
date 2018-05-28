@@ -104,16 +104,6 @@ router.post("/", middleware.isLoggedIn, upload.single('image'), function(req, re
 		});
 	  });
 
-    // Create a new campground and save to DB
-    // Campground.create(newCampground, function(err, newlyCreated){
-    //     if(err){
-    //         console.log(err);
-    //     } else {
-    //         //redirect back to campgrounds page
-    //         console.log(newlyCreated);
-    //         res.redirect("/campgrounds");
-    //     }
-    // });
   });
 });
   
