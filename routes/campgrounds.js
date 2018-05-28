@@ -49,7 +49,7 @@ router.get("/", function(req, res){
 					req.flash("error", "No campgrounds match that query");
 					res.redirect("/campgrounds");					
 				}else{
-					res.render("campgrounds/Index",{campgrounds: allCampgrounds, page: 'campgrounds'});
+					res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
 				}
 			}
 		 });
@@ -59,7 +59,7 @@ router.get("/", function(req, res){
        if(err){
            console.log(err);
        } else {
-          res.render("campgrounds/Index",{campgrounds: allCampgrounds, page: 'campgrounds'});
+          res.render("campgrounds/index",{campgrounds: allCampgrounds, page: 'campgrounds'});
        }
 	});
 }
